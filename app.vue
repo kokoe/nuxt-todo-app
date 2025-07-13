@@ -15,7 +15,7 @@ const todos = ref<Todo[]>([
     id: 2,
     done: true,
     title: "Vue Fes Japan ボランティアスタッフに応募する",
-    note: null,
+    note: "",
     dueDate: null,
   },
 ]);
@@ -59,7 +59,7 @@ function createEmtpyTodo() {
     id: createRandomNumber(),
     done: false,
     title: "",
-    note: null,
+    note: "",
     dueDate: null,
   };
 }
@@ -323,21 +323,23 @@ watch(showUnDoneOnly, () => {
                 <label for="note">メモ</label>
                 <textarea
                   id="note"
-                  :model-value="createTodo.note"
+                  v-model="createTodo.note"
                   class="border border-gray-300 rounded-sm py-1 px-2"
                   rows="5"
                   resize="vertical"
-                  @update:model-value="createTodo.note = $event || null"
                 />
               </div>
               <div class="flex flex-col gap-1">
                 <label for="dueDate">期限</label>
                 <input
                   id="dueDate"
-                  :model-value="createTodo.dueDate"
+                  :value="createTodo.dueDate"
                   type="date"
                   class="border border-gray-300 rounded-sm py-1 px-2"
-                  @update:model-value="createTodo.dueDate = $event || null"
+                  @change="
+                    createTodo.dueDate =
+                      ($event.target as HTMLInputElement).value || null
+                  "
                 />
               </div>
             </form>
