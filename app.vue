@@ -111,7 +111,7 @@ function handleSubmitCreateTodo() {
     <UContainer class="pt-4 pb-10 flex flex-col gap-10 min-h-screen">
       <header class="flex gap-1 items-end flex-wrap">
         <div class="flex-grow">
-          <h1 class="text-2xl font-bold">Nuxt TODO Application</h1>
+          <h1 class="text-2xl font-bold">Vue TODO Application</h1>
         </div>
         <div class="flex items-center gap-1">
           <UIcon name="i-heroicons-user" />
