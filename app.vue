@@ -187,6 +187,7 @@ watch(showUnDoneOnly, () => {
               </th>
               <th class="w-16 text-center">完了</th>
               <th>タイトル</th>
+              <th>メモ</th>
               <th>期限</th>
             </tr>
           </thead>
@@ -230,6 +231,9 @@ watch(showUnDoneOnly, () => {
                   </button>
                 </td>
                 <td>{{ todo.title }}</td>
+                <td>
+                  <div class="whitespace-pre-line">{{ todo.note }}</div>
+                </td>
                 <td>{{ todo.dueDate }}</td>
               </tr>
             </template>
