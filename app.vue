@@ -100,6 +100,13 @@ function handleCheckedIncomplete() {
   resetCheckedTaskIds();
 }
 
+function handleCheckedRemove() {
+  todos.value = todos.value.filter(
+    (todo) => !checkedTaskIds.value.includes(todo.id)
+  );
+  resetCheckedTaskIds();
+}
+
 function handleSubmitCreateTodo() {
   todos.value.unshift({ ...createTodo.value });
   resetCreateTodo();
@@ -260,6 +267,15 @@ watch(showUnDoneOnly, () => {
                   @click="handleCheckedIncomplete"
                 >
                   未完了にする
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  class="border-error border-1 text-error px-4 py-1.5 rounded-md text-sm hover:opacity-70"
+                  @click="handleCheckedRemove"
+                >
+                  削除する
                 </button>
               </li>
             </ul>
