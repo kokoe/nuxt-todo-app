@@ -23,6 +23,8 @@ const todos = ref<Todo[]>([
 // 一括操作
 const checkedTaskIds = ref<number[]>([]);
 
+const searchText = ref("");
+
 const showUnDoneOnly = ref(true);
 
 const filteredTodos = computed(() => {
@@ -90,11 +92,28 @@ function handleCheckedIncomplete() {
         </div>
       </header>
 
-      <main class="flex-grow flex flex-col gap-2">
-        <div class="flex gap-2">
+      <main class="flex-grow flex flex-col gap-4">
+        <div class="flex gap-2 flex-wrap">
           <div class="flex-grow">
-            <div class="flex gap-2 text-sm">
-              <label class="flex gap-2"
+            <div class="flex gap-y-2 gap-x-4 text-sm flex-wrap">
+              <!-- search -->
+              <div class="relative">
+                <label for="search">
+                  <UIcon
+                    name="i-heroicons-magnifying-glass"
+                    class="absolute text-lg text-gray-400 top-1/2 -translate-y-1/2 left-2"
+                  />
+                </label>
+                <input
+                  id="search"
+                  v-model="searchText"
+                  type="search"
+                  placeholder="検索"
+                  class="border border-gray-300 rounded-sm py-1 pr-2 pl-8"
+                />
+              </div>
+              <!-- show un done only -->
+              <label class="flex gap-2 items-center"
                 ><input
                   v-model="showUnDoneOnly"
                   type="checkbox"
