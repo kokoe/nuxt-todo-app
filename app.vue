@@ -147,7 +147,7 @@ function handleCheckedIncomplete() {
 
         <div
           v-if="checkedTaskCount > 0"
-          class="fixed bottom-0 inset-x-0 px-6 pt-6 pb-10 border-t bg-white border-t-gray-200 dark:bg-gray-800 dark:border-gray-700"
+          class="fixed bottom-0 inset-x-0 px-6 pt-6 pb-10 border-t bg-white border-t-gray-200 dark:bg-gray-800 dark:border-gray-700 shadow-[0_0_10px_rgb(0_0_0_/_0.1)]"
         >
           <div class="flex gap-y-2 gap-x-6 items-center justify-center">
             <p>選択した{{ checkedTaskCount }}件のタスクを</p>
@@ -177,7 +177,7 @@ function handleCheckedIncomplete() {
         <!-- 新規作成 -->
         <dialog
           :open="isCreateDialogOpen"
-          class="fixed inset-y-0 left-auto right-0 min-h-screen w-sm max-w-full border-l bg-white dark:bg-gray-800 border-l-gray-200 dark:border-l-gray-700"
+          class="fixed inset-y-0 left-auto right-0 min-h-screen w-sm max-w-full border-l bg-white dark:bg-gray-800 border-l-gray-200 dark:border-l-gray-700 shadow-[0_0_10px_rgb(0_0_0_/_0.1)]"
         >
           <div class="flex flex-col gap-6 p-4">
             <div class="flex gap-2">

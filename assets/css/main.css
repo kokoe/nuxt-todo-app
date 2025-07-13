@@ -2,7 +2,7 @@
 @import "@nuxt/ui";
 
 @theme static {
-  --ui-bg: #fafafa;
+  --ui-bg: #fcfcfc;
 }
 
 .dark {
