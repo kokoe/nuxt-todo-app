@@ -47,7 +47,7 @@ const checkedTaskCount = computed(() => {
 });
 
 const allChecked = computed(() => {
-  return checkedTaskCount.value === todos.value.length;
+  return checkedTaskCount.value === filteredTodos.value.length;
 });
 
 const isCreateDialogOpen = ref(false);
@@ -75,7 +75,7 @@ function resetCheckedTaskIds() {
 function handleAllCheckedChange(e: Event) {
   const target = e.target as HTMLInputElement;
   if (target.checked) {
-    checkedTaskIds.value = todos.value.map((todo) => todo.id);
+    checkedTaskIds.value = filteredTodos.value.map((todo) => todo.id);
   } else {
     resetCheckedTaskIds();
   }
@@ -104,6 +104,13 @@ function handleSubmitCreateTodo() {
   todos.value.unshift({ ...createTodo.value });
   resetCreateTodo();
 }
+
+watch(showUnDoneOnly, () => {
+  checkedTaskIds.value = checkedTaskIds.value.filter((id) => {
+    const todo = todos.value.find((todo) => todo.id === id);
+    return showUnDoneOnly.value ? !todo?.done : true;
+  });
+});
 </script>
 
 <template>
