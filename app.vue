@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import type { Todo } from "./types";
 
-const userName = ref("Vue Fes Tokyo");
+const userName = ref("Vue Fes Japan");
 
 const todos = ref<Todo[]>([
   {
     id: 1,
-    done: true,
-    title: "Buy groceries",
-    note: "Buy groceries for the week",
-    dueDate: "2025-07-15",
+    done: false,
+    title: "Vue Fes Japan 2025のチケット販売開始の宣伝をする",
+    note: "XとBlueskyで宣伝する。\n会社のslackでも宣伝する。",
+    dueDate: "2025-10-24",
   },
   {
     id: 2,
-    done: false,
-    title: "Buy groceries",
-    note: "Buy groceries for the week",
-    dueDate: "2025-07-15",
+    done: true,
+    title: "Vue Fes Japan ボランティアスタッフに応募する",
+    note: null,
+    dueDate: null,
   },
 ]);
 
@@ -28,11 +28,17 @@ const searchText = ref("");
 const showUnDoneOnly = ref(true);
 
 const filteredTodos = computed(() => {
-  if (!showUnDoneOnly.value) {
-    return todos.value;
-  }
   return todos.value.filter((todo) => {
-    return todo.done !== showUnDoneOnly.value;
+    const isDone = todo.done;
+    const isTitleMatch = todo.title.includes(searchText.value);
+    const isNoteMatch = todo.note?.includes(searchText.value) ?? false;
+
+    // 未完了のみ表示
+    if (showUnDoneOnly.value) {
+      return !isDone && (isTitleMatch || isNoteMatch);
+    } else {
+      return isTitleMatch || isNoteMatch;
+    }
   });
 });
 
