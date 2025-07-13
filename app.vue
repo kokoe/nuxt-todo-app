@@ -290,19 +290,21 @@ function handleSubmitCreateTodo() {
                 <label for="note">メモ</label>
                 <textarea
                   id="note"
-                  v-model="createTodo.note"
+                  :model-value="createTodo.note"
                   class="border border-gray-300 rounded-sm py-1 px-2"
                   rows="5"
                   resize="vertical"
+                  @update:model-value="createTodo.note = $event || null"
                 />
               </div>
               <div class="flex flex-col gap-1">
                 <label for="dueDate">期限</label>
                 <input
                   id="dueDate"
-                  v-model="createTodo.dueDate"
+                  :model-value="createTodo.dueDate"
                   type="date"
                   class="border border-gray-300 rounded-sm py-1 px-2"
+                  @update:model-value="createTodo.dueDate = $event || null"
                 />
               </div>
             </form>
