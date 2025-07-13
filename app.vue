@@ -25,7 +25,7 @@ const checkedTaskIds = ref<number[]>([]);
 
 const searchText = ref("");
 
-const showUnDoneOnly = ref(true);
+const showUnDoneOnly = ref(false);
 
 const filteredTodos = computed(() => {
   return todos.value.filter((todo) => {
@@ -51,6 +51,22 @@ const allChecked = computed(() => {
 });
 
 const isCreateDialogOpen = ref(false);
+
+const createTodo = ref<Todo>(createEmtpyTodo());
+
+function createEmtpyTodo() {
+  return {
+    id: createRandomNumber(),
+    done: false,
+    title: "",
+    note: null,
+    dueDate: null,
+  };
+}
+
+function resetCreateTodo() {
+  createTodo.value = createEmtpyTodo();
+}
 
 function resetCheckedTaskIds() {
   checkedTaskIds.value = [];
@@ -82,6 +98,11 @@ function handleCheckedComplete() {
 function handleCheckedIncomplete() {
   todos.value = bulkUpdateIsDone(checkedTaskIds.value, false);
   resetCheckedTaskIds();
+}
+
+function handleSubmitCreateTodo() {
+  todos.value.unshift({ ...createTodo.value });
+  resetCreateTodo();
 }
 </script>
 
@@ -151,42 +172,47 @@ function handleCheckedIncomplete() {
               <th class="w-16 text-center">完了</th>
               <th>タイトル</th>
               <th>期限</th>
-              <th aria-label="操作">&nbsp;</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="todo in filteredTodos" :key="todo.id">
-              <td class="leading-none text-center">
-                <input
-                  v-model="checkedTaskIds"
-                  type="checkbox"
-                  :value="todo.id"
-                />
-              </td>
-              <td class="leading-none text-center">
-                <button
-                  type="button"
-                  class="hover:opacity-70"
-                  :aria-label="todo.done ? '未完了にする' : '完了にする'"
-                  @click="todo.done = !todo.done"
-                >
-                  <UIcon
-                    name="i-heroicons-check-circle"
-                    class="text-xl align-middle"
-                    :class="{
-                      'text-green-500': todo.done,
-                      'opacity-30': !todo.done,
-                    }"
-                    aria-hidden="true"
+            <template v-if="filteredTodos.length > 0">
+              <tr v-for="todo in filteredTodos" :key="todo.id">
+                <td class="leading-none text-center">
+                  <input
+                    v-model="checkedTaskIds"
+                    type="checkbox"
+                    :value="todo.id"
                   />
-                </button>
-              </td>
-              <td>{{ todo.title }}</td>
-              <td>{{ todo.dueDate }}</td>
-              <td>
-                <button type="button" />
-              </td>
-            </tr>
+                </td>
+                <td class="leading-none text-center">
+                  <button
+                    type="button"
+                    class="hover:opacity-70"
+                    :aria-label="todo.done ? '未完了にする' : '完了にする'"
+                    @click="todo.done = !todo.done"
+                  >
+                    <UIcon
+                      name="i-heroicons-check-circle"
+                      class="text-xl align-middle"
+                      :class="{
+                        'text-green-500': todo.done,
+                        'opacity-30': !todo.done,
+                      }"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </td>
+                <td>{{ todo.title }}</td>
+                <td>{{ todo.dueDate }}</td>
+              </tr>
+            </template>
+            <template v-else>
+              <tr>
+                <td colspan="5" class="text-center">
+                  <p class="py-10">該当のタスクがありません。</p>
+                </td>
+              </tr>
+            </template>
           </tbody>
         </table>
 
@@ -240,19 +266,26 @@ function handleCheckedIncomplete() {
                 />
               </button>
             </div>
-            <form class="text-sm flex flex-col gap-5 flex-grow">
+            <form
+              id="create-form"
+              class="text-sm flex flex-col gap-5 flex-grow"
+              @submit.prevent="handleSubmitCreateTodo"
+            >
               <div class="flex flex-col gap-1">
                 <label for="title">タイトル</label>
                 <input
                   id="title"
+                  v-model="createTodo.title"
                   type="text"
                   class="border border-gray-300 rounded-sm py-1 px-2"
+                  required
                 />
               </div>
               <div class="flex flex-col gap-1">
                 <label for="note">メモ</label>
                 <textarea
                   id="note"
+                  v-model="createTodo.note"
                   class="border border-gray-300 rounded-sm py-1 px-2"
                   rows="5"
                   resize="vertical"
@@ -262,6 +295,7 @@ function handleCheckedIncomplete() {
                 <label for="dueDate">期限</label>
                 <input
                   id="dueDate"
+                  v-model="createTodo.dueDate"
                   type="date"
                   class="border border-gray-300 rounded-sm py-1 px-2"
                 />
@@ -269,7 +303,8 @@ function handleCheckedIncomplete() {
             </form>
             <div class="text-center">
               <button
-                type="button"
+                type="submit"
+                form="create-form"
                 class="bg-primary text-white dark:text-black px-4 py-1.5 rounded-md text-sm hover:bg-primary-600"
               >
                 登録
