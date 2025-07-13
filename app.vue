@@ -189,18 +189,28 @@ function handleSubmitCreateTodo() {
                 </td>
                 <td class="leading-none text-center">
                   <button
+                    v-if="todo.done"
                     type="button"
                     class="hover:opacity-70"
-                    :aria-label="todo.done ? '未完了にする' : '完了にする'"
-                    @click="todo.done = !todo.done"
+                    aria-label="未完了にする"
+                    @click="todo.done = false"
                   >
                     <UIcon
                       name="i-heroicons-check-circle"
-                      class="text-xl align-middle"
-                      :class="{
-                        'text-green-500': todo.done,
-                        'opacity-30': !todo.done,
-                      }"
+                      class="text-xl align-middle text-green-500"
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <button
+                    v-else
+                    type="button"
+                    class="hover:opacity-70"
+                    aria-label="完了にする"
+                    @click="todo.done = true"
+                  >
+                    <UIcon
+                      name="i-heroicons-check-circle"
+                      class="text-xl align-middle opacity-30"
                       aria-hidden="true"
                     />
                   </button>
