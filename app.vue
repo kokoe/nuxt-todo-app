@@ -23,6 +23,17 @@ const todos = ref<Todo[]>([
 // 一括操作
 const checkedTaskIds = ref<number[]>([]);
 
+const showUnDoneOnly = ref(true);
+
+const filteredTodos = computed(() => {
+  if (!showUnDoneOnly.value) {
+    return todos.value;
+  }
+  return todos.value.filter((todo) => {
+    return todo.done !== showUnDoneOnly.value;
+  });
+});
+
 const checkedTaskCount = computed(() => {
   return checkedTaskIds.value.length;
 });
@@ -81,7 +92,16 @@ function handleCheckedIncomplete() {
 
       <main class="flex-grow flex flex-col gap-2">
         <div class="flex gap-2">
-          <div class="flex-grow">絞り込み処理</div>
+          <div class="flex-grow">
+            <div class="flex gap-2 text-sm">
+              <label class="flex gap-2"
+                ><input
+                  v-model="showUnDoneOnly"
+                  type="checkbox"
+                />未完了のみ表示</label
+              >
+            </div>
+          </div>
           <button
             type="button"
             class="bg-primary text-white dark:text-black px-4 py-1.5 rounded-md text-sm hover:bg-primary-600"
@@ -110,7 +130,7 @@ function handleCheckedIncomplete() {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="todo in todos" :key="todo.id">
+            <tr v-for="todo in filteredTodos" :key="todo.id">
               <td class="leading-none text-center">
                 <input
                   v-model="checkedTaskIds"
