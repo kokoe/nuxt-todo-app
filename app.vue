@@ -153,6 +153,7 @@ function handleSubmitCreateTodo() {
             class="bg-primary text-white dark:text-black px-4 py-1.5 rounded-md text-sm hover:bg-primary-600"
             aria-haspopup="dialog"
             aria-expanded="false"
+            aria-controls="create-dialog"
             @click="isCreateDialogOpen = true"
           >
             新規作成
@@ -166,6 +167,7 @@ function handleSubmitCreateTodo() {
                 <input
                   v-model="allChecked"
                   type="checkbox"
+                  aria-label="全てのタスクの選択"
                   @change="handleAllCheckedChange"
                 />
               </th>
@@ -182,6 +184,7 @@ function handleSubmitCreateTodo() {
                     v-model="checkedTaskIds"
                     type="checkbox"
                     :value="todo.id"
+                    :aria-label="`${todo.title}の選択`"
                   />
                 </td>
                 <td class="leading-none text-center">
@@ -218,6 +221,7 @@ function handleSubmitCreateTodo() {
 
         <div
           v-if="checkedTaskCount > 0"
+          role="dialog"
           class="fixed bottom-0 inset-x-0 px-6 pt-6 pb-10 border-t bg-white border-t-gray-200 dark:bg-gray-800 dark:border-gray-700 shadow-[0_0_10px_rgb(0_0_0_/_0.1)]"
         >
           <div class="flex gap-y-2 gap-x-6 items-center justify-center">
@@ -247,6 +251,7 @@ function handleSubmitCreateTodo() {
 
         <!-- 新規作成 -->
         <dialog
+          id="create-dialog"
           :open="isCreateDialogOpen"
           class="fixed inset-y-0 left-auto right-0 min-h-screen w-sm max-w-full border-l bg-white dark:bg-gray-800 border-l-gray-200 dark:border-l-gray-700 shadow-[0_0_10px_rgb(0_0_0_/_0.1)]"
         >
